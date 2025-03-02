@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: currency-converter
+spec:
+  replicas: 2  # Minimum pods
+  selector:
+    matchLabels:
+      app: currency-converter
+  template:
+    metadata:
+      labels:
+        app: currency-converter
+    spec:
+      containers:
+        - name: currency-converter
+          image: nishit7908/currency-converter:10999766339  # Use your Docker image
+          resources:
+            requests:
+              cpu: "200m"
+            limits:
+              cpu: "500m"
+          ports:
+            - containerPort: 8080  # Change if your app runs on a different port
+          livenessProbe:
+            httpGet:
+              path: /health   # Change to the actual health endpoint
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health   # Change to the actual readiness endpoint
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 5

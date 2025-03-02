@@ -1,0 +1,12 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: pod-kill-example
+  namespace: default  # Use the namespace where your application is deployed
+spec:
+  action: pod-kill
+  mode: one
+  duration: "30s"
+  selector:
+    labelSelectors:
+      app: currency-converter  # Replace with the actual label of your application pods
